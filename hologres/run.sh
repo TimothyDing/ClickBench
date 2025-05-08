@@ -9,12 +9,16 @@ TRIES=3
 
 PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t < prepare_sql.sql
 
+echo "" > temp.sql
 cat queries.sql | while read query; do
-    sync
-    echo 3 | PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t < freecache.sql
+    cat freecache.sql >> temp.sql
+    
 
-    echo "$query";
+    echo '\\timing' >> temp.sql
     for i in $(seq 1 $TRIES); do
-        PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t -c '\timing' -c "$query" | grep 'ms'
+        echo $query >> temp.sql
     done;
+    echo '\\timing' >> temp.sql
 done;
+
+PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t -f temp.sql | grep 'ms'
