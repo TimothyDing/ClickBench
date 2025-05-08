@@ -42,7 +42,7 @@ sleep 15  # 暂停 15 秒
 echo "15 秒后继续执行..."
 
 # 文件切片
-split -l 15000000  hits.tsv hits_part_
+split -l 10000000  hits.tsv hits_part_
 
 # 文件导入
 for file in hits_part_*; do
