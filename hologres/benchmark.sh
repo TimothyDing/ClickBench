@@ -7,9 +7,9 @@ HOST_NAME=$3
 PORT=$4
 
 # Install dependencies
-yum update -y
-yum install postgresql-server -y
-yum install postgresql-contrib -y
+sudo yum update -y
+sudo yum install postgresql-server -y
+sudo yum install postgresql-contrib -y
 
 # Set the file name and download link
 FILENAME="hits.tsv"
