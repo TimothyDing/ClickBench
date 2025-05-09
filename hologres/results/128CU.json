@@ -6,7 +6,7 @@
 
     "tags": ["managed", "column-oriented", "PostgreSQL compatible", "C++"],
 
-    "load_time": 357,
+    "load_time": 480,
     "data_size": 27190000000,
 
     "result": [

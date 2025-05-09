@@ -61,11 +61,3 @@ echo "Starting to run queries..."
 
 cat log.txt | grep -oP '时间：\d+\.\d+ ms' | sed -r -e 's/时间：([0-9]+\.[0-9]+) ms/\1/' |
     awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }' | tee result.txt
-
-# run clickbench test with rewrite queries
-echo "Starting to run queries with rewrite queries..."
-
-./run_rewrite_queries.sh $PG_USER $PG_PASSWORD $HOST_NAME $PORT 2>&1 | tee log_rewrite_queries.txt
-
-cat log_rewrite_queries.txt | grep -oP '时间：\d+\.\d+ ms' | sed -r -e 's/时间：([0-9]+\.[0-9]+) ms/\1/' |
-    awk '{ if (i % 3 == 0) { printf "[" }; printf $1 / 1000; if (i % 3 != 2) { printf "," } else { print "]," }; ++i; }' | tee result_rewrite_queries.txt
