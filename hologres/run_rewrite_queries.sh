@@ -1,0 +1,24 @@
+#!/bin/bash
+
+PG_USER=$1
+PG_PASSWORD=$2
+HOST_NAME=$3
+PORT=$4
+
+TRIES=3
+
+PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t < prepare_sql.sql
+
+echo "" > temp.sql
+cat queries_rewrite.sql | while read query; do
+    cat freecache.sql >> temp.sql
+    
+
+    echo '\timing' >> temp.sql
+    for i in $(seq 1 $TRIES); do
+        echo "$query" >> temp.sql
+    done;
+    echo '\timing' >> temp.sql
+done;
+
+PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t -f temp.sql | grep 'ms'
