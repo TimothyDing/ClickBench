@@ -33,7 +33,9 @@ fi
 
 # create database and create table
 PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d postgres  -t -c 'DROP DATABASE test'
+sleep 15  # sleep for 15 seconds
 PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d postgres  -t -c 'CREATE DATABASE test'
+sleep 15  # sleep for 15 seconds
 PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t < create.sql
 
 # sleep 15 seconds to wait for the database to be ready
