@@ -14,11 +14,11 @@ cat queries.sql | while read query; do
     cat freecache.sql >> temp.sql
     
 
-    echo '\\timing' >> temp.sql
+    echo '\timing' >> temp.sql
     for i in $(seq 1 $TRIES); do
-        echo $query >> temp.sql
+        echo "$query" >> temp.sql
     done;
-    echo '\\timing' >> temp.sql
+    echo '\timing' >> temp.sql
 done;
 
 PGUSER=$PG_USER PGPASSWORD=$PG_PASSWORD psql -h $HOST_NAME -p $PORT -d test -t -f temp.sql | grep 'ms'
